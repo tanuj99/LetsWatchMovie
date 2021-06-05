@@ -22,18 +22,15 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
+
 import java.util.List;
 import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    //public static String baseUrl = "https://api.themoviedb.org/3/movie/popular?api_key=8c20ae237f85f1e8e62140e5509ca3db&language=en-US";
-
     List<Movie> movieList;
     RecyclerView recyclerView;
-    //private Calendar MySingleton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         movieList = new ArrayList<>();
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
