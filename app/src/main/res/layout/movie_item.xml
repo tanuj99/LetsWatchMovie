@@ -2,53 +2,74 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="350dp"
-        android:layout_height="150dp"
+    <ImageView
+        android:id="@+id/moviePoster"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/purple_500"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="@color/teal_200"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="5dp">
+        tools:srcCompat="@tools:sample/avatars"/>
 
-        <ImageView
-            android:id="@+id/moviePoster"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            tools:srcCompat="@tools:sample/avatars"
-            android:layout_gravity="right"
-            android:scaleType="centerCrop"/>
 
-        <LinearLayout
+    <androidx.cardview.widget.CardView
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:elevation="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/moviePoster">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/idView"
+                android:id="@+id/dateView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView"
-                android:padding="24dp"
-                android:textSize="14sp"/>
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="08/11/99"
+                android:textColor="@color/black"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/titleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="TextView"
-                android:padding="24dp"
-                android:textSize="28sp"/>
-        </LinearLayout>
+                android:maxLength="16"
+                android:padding="0dp"
+                android:text="Movie Title"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/idView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Votes"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

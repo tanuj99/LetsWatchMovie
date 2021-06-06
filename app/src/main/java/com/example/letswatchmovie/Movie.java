@@ -3,13 +3,15 @@ package com.example.letswatchmovie;
 public class Movie {
     private String mTitle;
     private String mVote;
-    private String mPosterId = "";
+    private String mPosterId;
+    private String mRelDate;
 
-    public Movie(String title , String vote , String posterId)
+    public Movie(String title , String vote , String posterId , String relDate)
     {
         this.mPosterId = posterId;
         this.mTitle = title;
         this.mVote = vote;
+        this.mRelDate = relDate;
     }
 
     public String getmTitle() {
@@ -22,5 +24,9 @@ public class Movie {
 
     public String getmPosterId() {
         return mPosterId;
+    }
+
+    public String getmRelDate() {
+        return mRelDate;
     }
 }

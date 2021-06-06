@@ -36,8 +36,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
         
         holder.movieId.setText(mData.get(position).getmVote());
         holder.movieTitle.setText(mData.get(position).getmTitle());
+        holder.relDate.setText(mData.get(position).getmRelDate());
 
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500"+mData.get(position).getmPosterId()).into(holder.movieImg);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/original"+mData.get(position).getmPosterId()).into(holder.movieImg);
 
     }
 
@@ -51,6 +52,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
         TextView movieTitle;
         TextView movieId;
         ImageView movieImg;
+        TextView relDate;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -58,6 +60,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
             movieId = itemView.findViewById(R.id.idView);
             movieImg = itemView.findViewById(R.id.moviePoster);
             movieTitle = itemView.findViewById(R.id.titleView);
+            relDate = itemView.findViewById(R.id.dateView);
         }
     }
 }
