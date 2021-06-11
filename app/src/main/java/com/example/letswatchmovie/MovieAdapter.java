@@ -4,49 +4,31 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder> implements Filterable {
 
     private Context mContext;
     private List<Movie> mData;
+    private List<Movie> allMovies;
 
-    public MovieAdapter(Context context , List<Movie> data){
+
+
+    public MovieAdapter(Context context , List<Movie> data ){
         this.mContext = context;
         this.mData = data;
+        this.allMovies = new ArrayList<>(mData);
     }
-
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View movieList = LayoutInflater.from(mContext)
-                .inflate(R.layout.movie_item , parent , false);
-
-        return new MyViewHolder(movieList);
-    }
-
-    @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        
-        holder.movieId.setText(mData.get(position).getmVote());
-        holder.movieTitle.setText(mData.get(position).getmTitle());
-        holder.relDate.setText(mData.get(position).getmRelDate());
-
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/original"+mData.get(position).getmPosterId()).into(holder.movieImg);
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return mData.size();
-    }
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView movieTitle;
@@ -61,6 +43,79 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
             movieImg = itemView.findViewById(R.id.moviePoster);
             movieTitle = itemView.findViewById(R.id.titleView);
             relDate = itemView.findViewById(R.id.dateView);
+
         }
     }
+
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View movieList = LayoutInflater.from(mContext)
+                .inflate(R.layout.movie_item , parent , false);
+
+        MyViewHolder viewHolder = new MyViewHolder(movieList);
+
+
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+
+        holder.movieId.setText(mData.get(position).getmVote());
+        holder.movieTitle.setText(mData.get(position).getmTitle());
+        holder.relDate.setText(mData.get(position).getmRelDate());
+
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/original"+mData.get(position).getmPosterId()).into(holder.movieImg);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return mData.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            
+            List<Movie> filterList = new ArrayList<>();
+
+            if (constraint.toString().isEmpty()){
+                filterList.addAll(allMovies);
+            }else{
+
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Movie movie : allMovies){
+                    if (movie.getmTitle().toLowerCase().contains(filterPattern)){
+                        filterList.add(movie);
+                    }
+
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filterList;
+            filterResults.count = filterList.size();
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            mData.clear();
+            mData.addAll((Collection<? extends Movie>) results.values);
+            notifyDataSetChanged();
+
+        }
+    };
 }
