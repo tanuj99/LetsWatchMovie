@@ -22,8 +22,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     private List<Movie> mData;
     private List<Movie> allMovies;
 
-
-
     public MovieAdapter(Context context , List<Movie> data ){
         this.mContext = context;
         this.mData = data;
@@ -35,6 +33,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
         TextView movieId;
         ImageView movieImg;
         TextView relDate;
+        ImageView favBtn;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -43,10 +42,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
             movieImg = itemView.findViewById(R.id.moviePoster);
             movieTitle = itemView.findViewById(R.id.titleView);
             relDate = itemView.findViewById(R.id.dateView);
+            favBtn = itemView.findViewById(R.id.favIcon);
 
         }
     }
-
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -55,21 +54,47 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
                 .inflate(R.layout.movie_item , parent , false);
 
         MyViewHolder viewHolder = new MyViewHolder(movieList);
-
-
-
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        final Movie movieList = mData.get(position);
 
-        holder.movieId.setText(mData.get(position).getmVote());
-        holder.movieTitle.setText(mData.get(position).getmTitle());
-        holder.relDate.setText(mData.get(position).getmRelDate());
+        holder.movieId.setText(movieList.getmVote());
+        holder.movieTitle.setText(movieList.getmTitle());
+        holder.relDate.setText(movieList.getmRelDate());
 
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/original"+mData.get(position).getmPosterId()).into(holder.movieImg);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/original" + movieList.getmPosterId()).into(holder.movieImg);
 
+        if(MainActivity.favoriteDatabase.favoriteDao().isFavorite(movieList.getmVote())==1)
+            holder.favBtn.setImageResource(R.drawable.ic_baseline_favorite_24);
+        else
+            holder.favBtn.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+
+        holder.favBtn.setOnClickListener(v -> {
+            FavoriteList favoriteList = new FavoriteList();
+
+            String movieId = movieList.getmVote();
+            String moviePoster = movieList.getmPosterId();
+            String movieTitle = movieList.getmTitle();
+            String movieRelDate = movieList.getmRelDate();
+
+            favoriteList.setMovieId(movieId);
+            favoriteList.setMoviePoster(moviePoster);
+            favoriteList.setMovieRelDate(movieRelDate);
+            favoriteList.setMovieTitle(movieTitle);
+
+            if (MainActivity.favoriteDatabase.favoriteDao().isFavorite(movieId)!=1){
+                holder.favBtn.setImageResource(R.drawable.ic_baseline_favorite_24);
+                MainActivity.favoriteDatabase.favoriteDao().addData(favoriteList);
+            }
+            else{
+                holder.favBtn.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                MainActivity.favoriteDatabase.favoriteDao().delete(favoriteList);
+            }
+
+        });
     }
 
     @Override

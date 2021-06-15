@@ -1,17 +1,22 @@
 package com.example.letswatchmovie;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,11 +39,13 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+
     String baseURL = "https://api.themoviedb.org/3/movie/popular?api_key=8c20ae237f85f1e8e62140e5509ca3db&language=en-US";
 
     List<Movie> movieList;
     RecyclerView recyclerView;
     MovieAdapter adapter;
+    public static FavoriteDatabase favoriteDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
         movieList = new ArrayList<>();
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        //adapter.setClickListener(this);
+
+        favoriteDatabase = Room.databaseBuilder(getApplicationContext(),FavoriteDatabase.class,"myFavDB")
+                .allowMainThreadQueries().build();
 
         try{
             getMovieData();
@@ -100,8 +109,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main , menu);
-        MenuItem item = menu.findItem(R.id.search_bar);
-        SearchView searchView = (SearchView) item.getActionView();
+
+        MenuItem searchItem = menu.findItem(R.id.search_bar);
+        SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -118,7 +128,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        MenuItem favButton = menu.findItem(R.id.favBtn);
+        AppCompatButton button = (AppCompatButton) favButton.getActionView();
+        button.setMaxWidth(Integer.MAX_VALUE);
+
+        button.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this,FavoriteListActivity.class)));
+
         return super.onCreateOptionsMenu(menu);
     }
+
 }
 
