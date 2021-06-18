@@ -1,10 +1,10 @@
 package com.example.letswatchmovie;
 
 public class Movie {
-    private String mTitle;
-    private String mVote;
-    private String mPosterId;
-    private String mRelDate;
+    private final String mTitle;
+    private final String mVote;
+    private final String mPosterId;
+    private final String mRelDate;
 
     public Movie(String title , String vote , String posterId , String relDate)
     {

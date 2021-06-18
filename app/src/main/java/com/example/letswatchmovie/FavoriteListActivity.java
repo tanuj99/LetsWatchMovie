@@ -10,7 +10,6 @@ import java.util.List;
 
 public class FavoriteListActivity extends AppCompatActivity {
     private RecyclerView favRecyclerView;
-    private FavoriteAdapter favoriteAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ public class FavoriteListActivity extends AppCompatActivity {
     private void getFavData() {
         List<FavoriteList> favoriteLists=MainActivity.favoriteDatabase.favoriteDao().getFavoriteData();
 
-        favoriteAdapter=new FavoriteAdapter(getApplicationContext() , favoriteLists);
+        FavoriteAdapter favoriteAdapter = new FavoriteAdapter(getApplicationContext(), favoriteLists);
         favRecyclerView.setAdapter(favoriteAdapter);
     }
 

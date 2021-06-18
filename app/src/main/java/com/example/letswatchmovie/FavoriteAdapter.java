@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -14,14 +15,15 @@ import java.util.List;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyFavViewHolder> {
 
-    private Context mContext;
-    private List<FavoriteList> mFavouriteMovies;
+    private final Context mContext;
+    private final List<FavoriteList> mFavouriteMovies;
 
     public FavoriteAdapter (Context context , List<FavoriteList> FavouriteData){
         this.mContext = context;
         this.mFavouriteMovies = FavouriteData;
     }
 
+    @NonNull
     @Override
     public MyFavViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View movieList = LayoutInflater.from(mContext)
@@ -45,7 +47,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyFavV
         return mFavouriteMovies.size();
     }
 
-    public class MyFavViewHolder extends RecyclerView.ViewHolder{
+    public static class MyFavViewHolder extends RecyclerView.ViewHolder{
 
         TextView movieTitle;
         TextView movieId;

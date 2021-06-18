@@ -8,6 +8,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,16 +20,16 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder> implements Filterable {
 
-    private Context mContext;
-    private List<Movie> mData;
-    private List<Movie> allMovies;
+    private final Context mContext;
+    private final List<Movie> mData;
+    private final List<Movie> allMovies;
 
     public MovieAdapter(Context context , List<Movie> data ){
         this.mContext = context;
         this.mData = data;
         this.allMovies = new ArrayList<>(mData);
     }
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView movieTitle;
         TextView movieId;
@@ -47,14 +49,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
         }
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View movieList = LayoutInflater.from(mContext)
                 .inflate(R.layout.movie_item , parent , false);
 
-        MyViewHolder viewHolder = new MyViewHolder(movieList);
-        return viewHolder;
+        return new MyViewHolder(movieList);
     }
 
     @Override

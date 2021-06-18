@@ -3,10 +3,12 @@ package com.example.letswatchmovie;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 @Entity(tableName = "favouriteList")
 public class FavoriteList {
 
+    @NonNull
     @PrimaryKey
     private String movieId;
 
@@ -19,6 +21,7 @@ public class FavoriteList {
     @ColumnInfo(name = "movie Release Date")
     private String movieRelDate;
 
+    @androidx.annotation.NonNull
     public String getMovieId() {
         return movieId;
     }
@@ -35,7 +38,7 @@ public class FavoriteList {
         return movieRelDate;
     }
 
-    public void setMovieId(String movieId) {
+    public void setMovieId(@androidx.annotation.NonNull String movieId) {
         this.movieId = movieId;
     }
 
