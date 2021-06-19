@@ -3,6 +3,7 @@ package com.example.letswatchmovie;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +19,7 @@ public class FavoriteListActivity extends AppCompatActivity {
 
         favRecyclerView = findViewById(R.id.favRecyclerView);
         favRecyclerView.setHasFixedSize(true);
-        favRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        favRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
 
         getFavData();
     }

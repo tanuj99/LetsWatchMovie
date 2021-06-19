@@ -1,7 +1,7 @@
 package com.example.letswatchmovie;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.RoomDatabase;
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
 
 @Database(entities = {FavoriteList.class}, version = 1)
 public abstract class FavoriteDatabase extends RoomDatabase {

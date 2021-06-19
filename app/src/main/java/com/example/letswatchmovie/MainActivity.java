@@ -1,11 +1,13 @@
 package com.example.letswatchmovie;
 
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -101,25 +103,29 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem searchItem = menu.findItem(R.id.search_bar);
         SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+
+                adapter.getFilter().filter(query);
+                searchView.clearFocus();
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
 
                 adapter.getFilter().filter(newText);
-                return false;
+                return true;
             }
         });
 
         MenuItem favButton = menu.findItem(R.id.favBtn);
         AppCompatButton button = (AppCompatButton) favButton.getActionView();
-        button.setMaxWidth(Integer.MAX_VALUE);
+        //button.setMaxWidth(Integer.MAX_VALUE);
 
         button.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this,FavoriteListActivity.class)));

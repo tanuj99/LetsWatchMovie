@@ -109,40 +109,45 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
         return filter;
     }
 
-    Filter filter = new Filter() {
+    Filter filter;
 
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            
-            List<Movie> filterList = new ArrayList<>();
+    {
+        filter = new Filter() {
 
-            if (constraint.toString().isEmpty()){
-                filterList.addAll(allMovies);
-            }else{
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
 
-                String filterPattern = constraint.toString().toLowerCase().trim();
+                String charString = constraint.toString();
+                List<Movie> filterList = new ArrayList<>();
 
-                for (Movie movie : allMovies){
-                    if (movie.getmTitle().toLowerCase().contains(filterPattern)){
-                        filterList.add(movie);
+                if (charString.isEmpty()) {
+                    filterList.addAll(allMovies);
+                } else {
+
+                    String filterPattern = charString.toLowerCase().trim();
+
+                    for (Movie movie : allMovies) {
+                        if (movie.getmTitle().toLowerCase().contains(filterPattern)) {
+                            filterList.add(movie);
+                        }
+
                     }
-
                 }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filterList;
+                filterResults.count = filterList.size();
+
+                return filterResults;
             }
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filterList;
-            filterResults.count = filterList.size();
 
-            return filterResults;
-        }
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
 
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
+                mData.clear();
+                mData.addAll((Collection<? extends Movie>) results.values);
+                notifyDataSetChanged();
 
-            mData.clear();
-            mData.addAll((Collection<? extends Movie>) results.values);
-            notifyDataSetChanged();
-
-        }
-    };
+            }
+        };
+    }
 }
